@@ -19,5 +19,9 @@ public class Test {
             int w;
             int z;
         }
+        for(int s =0;s<5;s++){
+            s++;
+        }
     }
+
 }
