@@ -22,10 +22,11 @@ This Project uses ANTLR java parser to detect the line blocks which was executed
   * Write a Java program based on ANTLR that takes a java file as an input and outputs a modified intermediate Java file (injected code).
   * Run the modified intermediate generated Java file to show which blocks of the code are Entered..
     * As an example for a Java input file, we used this:
-   
       ![input_file_2](images/inputFileWeek2.png)
+    * We ran the code and the result as a java file.
+      ![outPut](images/OutPutFileWeek2.png)
     * We ran the code and the result is in the console as shown.
-      ![run](images/OutPutFileWeek2.png)
+      ![run](images/runWeek2.png)
 ## Week 3: 
 
   * Use the output from Week 2 to generate an HTML with highlighted red/green lines for Entered/UnEntered blocks.
