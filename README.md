@@ -1,4 +1,4 @@
-# Java-Line-Execution-Detector
+# Java-Block-Execution-Detector
 This Project uses ANTLR java parser to detect the line blocks which was executed from an input java program.
 
 ## Members:
