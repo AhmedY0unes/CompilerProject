@@ -24,7 +24,7 @@ This Project uses ANTLR java parser to detect the line blocks which was executed
     * As an example for a Java input file, we used this:
    
       ![input_file_2](images/inputFileWeek2.png)
-    * We ran the code and the result is in the console in the console,
+    * We ran the code and the result is in the console as shown.
       ![run](images/OutPutFileWeek2.png)
 ## Week 3: 
 
