@@ -38,13 +38,13 @@ This Project uses ANTLR java parser to detect the line blocks which was executed
        * The generated Output.java file:  
         ![Output](images/OutputFileWeek3.png)
        * The generated HTML file:
-        ![html](images/html.jpg)
+        ![html](images/html.png)
     2. * For the Second Examble:
       ![input_file2](images/input_file2Week3.png)
        * The generated Output.java file:  
         ![Output2](images/OutputFile2Week3.png)
        * The generated HTML file:
-        ![html2](images/html2.jpg)
+        ![html2](images/html2.png)
     3. * For the third Examble:
       ![input_file2](images/input_file3Week3.png)
        * The generated Output.java file:  
