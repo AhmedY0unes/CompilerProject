@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="antlr4-4.9.3-complete">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/antlr4-4.9.3-complete.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lib/antlr4-4.9.3-complete.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
