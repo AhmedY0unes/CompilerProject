@@ -1,3 +1,6 @@
+/// This class is for testing the Injector Class
+///
+/// This class providing a lot of supporting tokens to test how efficiency Injector Class will detect it and injection code in it.
 public class Test3 {
     public static void main(String[] args) {
         int x = 5;

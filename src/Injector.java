@@ -9,27 +9,28 @@ import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-/// This class takes a java file as an input and output a modified intermediate java file (injected code) then run the intermediate file to get txt file that contain which block executed.
+/// This class takes a java file as an input and output a modified intermediate java file (injected code) then run the intermediate file to get txt file that contain which block executed. And generate HTML file color the input code to detect which block executed.
 ///
-/// ### This class contains two functions: injector() and htmlInjector()
-/// - The injector() function
-/// Deals with injecting the block of code that write the blocks that have been visited in the output text file
-/// - The htmlInjector() function
-/// This function inject html code to color the input code. Green color for executed code, Red color for not executed code.
+/// ### This class contains two functions:
+///  #### The injector() function
+/// - Deals with injecting the block of code that write the blocks that have been visited in the output text file
+///  #### The htmlInjector() function
+/// - This function is inject html code to color the input code. Green color for executed code, Red color for not executed code.
 public class Injector{
     public static String injector(String path , String outputTxtPath) throws Exception {
         /// @param path input path for the file which we want to inject
-        /// @param outputTxtPath output path for the txt file which we will write into it the executed blocks
+        /// @param outputTxtPath output path for the text file which we will write into the executed blocks
         /// @return **r.getText()** java output code as a string.
 
-        /// This Function insert file writer function with counter after some specified tokens like if, while, for, etc... to detect in runtime if this block executed or not.
+        /// This Function inserts file writer function with counter after some specified tokens like if, while, for, etc... to detect in runtime if this block is executed or not.
         ///
-        /// This Function use JavaLexer and JavaParser to extract tokens from the input code. Insert imports and packages at the beginning of the output file. Make counter (to count each block). Then, We will iterate the whole tokens of input file. Until we get one of supported token
-        /// We insert after this token, file writer function which contain string "block " concatenate with counter which we mention before to count each block.
-        /// After we run this function we will have new java code with injected code in it as string.
+        /// This Function uses JavaLexer and JavaParser to extract tokens from the input code, inserts package and imports at the beginning of the output file, creates a counter to count each block. Then, it will iterate over the whole tokens of input file until it gets one of the supported tokens.
+        /// A file writer function which contains a string "Block" concatenated with the counter mentioned before, will be inserted after the supported token which function got.
+        ///
+        /// After running this function and supplying the java input file path, we will have new java code with injected code in it as string.
         /// ### Supported Tokens
         /// - if
-        /// - whfile
+        /// - while
         /// - for
         /// - do
         /// - try
@@ -42,7 +43,7 @@ public class Injector{
         /// - protected
         /// @note Every Token has a way to handle with it
 
-        /// @post We will have output code string as output. We will write it in java file in main() function. Then, This output java file will be executed in run() function and write the executed block counter in output.txt
+        /// @post We will have a code string as output. This code will be written in a java file in the main() function. Then, This output java file will be executed in the run() function and write the executed blocks in the output text file.
         /// @todo Test more recursive tokens in supported tokens
 
         JavaLexer lex = new JavaLexer(CharStreams.fromFileName(path));
@@ -165,6 +166,22 @@ public class Injector{
     }
 
     public static String htmlInjector(String path) throws Exception {
+        /// @param path input path for the file which we want to inject
+        /// @return **r.getText()** HTML output code as a string.
+;
+        /// This Function takes the input java file path and returns HTML output code which has been divided using dev tags to separate between blocks by ids to use them in marking which blocks have been executed.
+        ///
+        /// This Function uses JavaLexer and JavaParser to extract tokens from the input code. it inserts an opening dev tag with a specific id attribute at the beginning of each block. The id attribute consists of the string "Block" concatenated with the block number. A dev tag will wrap the whole code with style attribute that makes the background green and font Arial. A closing dev tag will be inserted at the end of each block.
+        ///
+        /// After the closing dev tag that wraps the whole code, a script tag will be added which contain the following:
+        /// - **A variable** which equals the number of blocks.
+        /// - **A for loop** that loops over all the dev tags with a "Block" id and adds style attribute which will make the background color red.
+        /// - **A fetch() function** which get the output.txt file, converts the data in it to text(), make an array in which elements contain each line in the text file then, loop over the array and make the background color of each dev tag with an id that is in the array green.
+        /// @note Every Token has a way to handle with it
+
+        /// @post We will have HTML code string as output. This code will be written in a HTML file in the main() function. Then, This output HTML file  will color blocks with green for executed code and red for not executed code depending on output.txt.
+        /// @todo Edit indentations
+
         JavaLexer lex = new JavaLexer(CharStreams.fromFileName(path));
         CommonTokenStream tokens = new CommonTokenStream(lex);
         JavaParser parser = new JavaParser(tokens);
@@ -296,12 +313,12 @@ public class Injector{
 
         /// @param command String command to execute in powershell
 
-        /// @return **1** If Success.
+        /// @return **1** If Succeed.
         /// @return **-1** If Failed.
 
-        /// This Function use to execute any powershell command
+        /// This Function is used to execute any powershell command
         ///
-        /// Take the string of the command as input. Then, Make powershell process. Then, pass this command to powershell process object. The process will execute and print the result if Success. If there are an error in this command process will print error response from the powershell
+        /// This Function takes a string of a command as an input. Then, it makes a powershell process. After that, it passes this command to the powershell process object to be executed and print the result if Success. If there are errors, the command process will print the errors responses from the powershell.
 
 
 
@@ -338,6 +355,13 @@ public class Injector{
     }
 
     public static void main(String[] args) throws Exception {
+
+        /// The function generates the output java file and the output HTML file.
+        ///
+        /// This Function takes the input file path from the user. Then, the function calls injector(), htmlInjector() with provided file path. store the string returned from each function in the output file which the function generates by doing some string operation on the input file path. After that it will call the run() function, passing the command which will be executed to run the output java file that will write the blocks which are executed in the output.txt file.
+
+        /// @post After function run, The HTML file with javascript will read from the output.txt file and color the lines depending on block number in the output.txt file.
+
         Scanner sc = new Scanner(System.in);
         String inputPath = sc.nextLine();
         String post = inputPath.substring(inputPath.lastIndexOf('\\'));
