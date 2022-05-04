@@ -105,11 +105,18 @@ Static Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >This class takes a java file as an input and output a modified intermediate java file (injected code) then run the intermediate file to get txt file that contain which block executed. </p>
+<p >And generate HTML file color the input code to detect which block executed.</p>
 <h3><a class="anchor" id="autotoc_md0"></a>
-This class contains two functions: injector() and htmlInjector()</h3>
+This class contains two functions:</h3>
+<h4><a class="anchor" id="autotoc_md1"></a>
+The injector() function</h4>
 <ul>
-<li>The <a class="el" href="class_injector.html#ad407dfbe9e5b195321f25e0d27cb344c">injector()</a> function Deals with injecting the block of code that write the blocks that have been visited in the output text file</li>
-<li>The <a class="el" href="class_injector.html#a63def0127d146ec8c56b487a0efcdb96">htmlInjector()</a> function This function inject html code to color the input code. Green color for executed code, Red color for not executed code. </li>
+<li>Deals with injecting the block of code that write the blocks that have been visited in the output text file </li>
+</ul>
+<h4><a class="anchor" id="autotoc_md2"></a>
+The htmlInjector() function</h4>
+<ul>
+<li>This function is inject html code to color the input code. Green color for executed code, Red color for not executed code. </li>
 </ul>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a63def0127d146ec8c56b487a0efcdb96" name="a63def0127d146ec8c56b487a0efcdb96"></a>
@@ -135,6 +142,23 @@ This class contains two functions: injector() and htmlInjector()</h3>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>input path for the file which we want to inject </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><b>r.getText()</b> HTML output code as a string.</dd></dl>
+<p>This Function takes the input java file path and returns HTML output code which has been divided using dev tags to separate between blocks by ids to use them in marking which blocks have been executed.</p>
+<p >This Function uses JavaLexer and JavaParser to extract tokens from the input code. it inserts an opening dev tag with a specific id attribute at the beginning of each block. The id attribute consists of the string "Block" concatenated with the block number. A dev tag will wrap the whole code with style attribute that makes the background green and font Arial. A closing dev tag will be inserted at the end of each block.</p>
+<p >After the closing dev tag that wraps the whole code, a script tag will be added which contain the following:</p><ul>
+<li><b>A variable</b> which equals the number of blocks.</li>
+<li><b>A for loop</b> that loops over all the dev tags with a "Block" id and adds style attribute which will make the background color red.</li>
+<li><b>A fetch() function</b> which get the output.txt file, converts the data in it to text(), make an array in which elements contain each line in the text file then, loop over the array and make the background color of each dev tag with an id that is in the array green. <dl class="section note"><dt>Note</dt><dd>Every Token has a way to handle with it</dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>We will have HTML code string as output. This code will be written in a HTML file in the <a class="el" href="class_injector.html#a14273730ea96c47b685de5bf0a2f2651">main()</a> function. Then, This output HTML file will color blocks with green for executed code and red for not executed code depending on output.txt. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Edit indentations </dd></dl>
+</li>
+</ul>
 
 </div>
 </div>
@@ -174,18 +198,19 @@ This class contains two functions: injector() and htmlInjector()</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>input path for the file which we want to inject </td></tr>
-    <tr><td class="paramname">outputTxtPath</td><td>output path for the txt file which we will write into it the executed blocks </td></tr>
+    <tr><td class="paramname">outputTxtPath</td><td>output path for the text file which we will write into the executed blocks </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>r.getText()</b> java output code as a string.</dd></dl>
-<p>This Function insert file writer function with counter after some specified tokens like if, while, for, etc... to detect in runtime if this block executed or not.</p>
-<p >This Function use JavaLexer and JavaParser to extract tokens from the input code. Insert imports and packages at the beginning of the output file. Make counter (to count each block). Then, We will iterate the whole tokens of input file. Until we get one of supported token We insert after this token, file writer function which contain string "block " concatenate with counter which we mention before to count each block. After we run this function we will have new java code with injected code in it as string. </p>
-<h3><a class="anchor" id="autotoc_md1"></a>
+<p>This Function inserts file writer function with counter after some specified tokens like if, while, for, etc... to detect in runtime if this block is executed or not.</p>
+<p >This Function uses JavaLexer and JavaParser to extract tokens from the input code, inserts package and imports at the beginning of the output file, creates a counter to count each block. Then, it will iterate over the whole tokens of input file until it gets one of the supported tokens. A file writer function which contains a string "Block" concatenated with the counter mentioned before, will be inserted after the supported token which function got.</p>
+<p >After running this function and supplying the java input file path, we will have new java code with injected code in it as string. </p>
+<h3><a class="anchor" id="autotoc_md3"></a>
 Supported Tokens</h3>
 <ul>
 <li>if</li>
-<li>whfile</li>
+<li>while</li>
 <li>for</li>
 <li>do</li>
 <li>try</li>
@@ -196,8 +221,8 @@ Supported Tokens</h3>
 <li>public</li>
 <li>private</li>
 <li>protected <dl class="section note"><dt>Note</dt><dd>Every Token has a way to handle with it</dd></dl>
-<dl class="section post"><dt>Postcondition</dt><dd>We will have output code string as output. We will write it in java file in <a class="el" href="class_injector.html#a14273730ea96c47b685de5bf0a2f2651">main()</a> function. Then, This output java file will be executed in <a class="el" href="class_injector.html#a412d2066baa52a0aea5756054d15591a">run()</a> function and write the executed block counter in output.txt </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd><a class="el" href="class_test.html">Test</a> more recursive tokens in supported tokens </dd></dl>
+<dl class="section post"><dt>Postcondition</dt><dd>We will have a code string as output. This code will be written in a java file in the <a class="el" href="class_injector.html#a14273730ea96c47b685de5bf0a2f2651">main()</a> function. Then, This output java file will be executed in the <a class="el" href="class_injector.html#a412d2066baa52a0aea5756054d15591a">run()</a> function and write the executed blocks in the output text file. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd><a class="el" href="class_test.html" title="This class is for testing the Injector Class.">Test</a> more recursive tokens in supported tokens </dd></dl>
 </li>
 </ul>
 
@@ -226,6 +251,9 @@ Supported Tokens</h3>
   </tr>
 </table>
 </div><div class="memdoc">
+<p >The function generates the output java file and the output HTML file.</p>
+<p >This Function takes the input file path from the user. Then, the function calls <a class="el" href="class_injector.html#ad407dfbe9e5b195321f25e0d27cb344c">injector()</a>, <a class="el" href="class_injector.html#a63def0127d146ec8c56b487a0efcdb96">htmlInjector()</a> with provided file path. store the string returned from each function in the output file which the function generates by doing some string operation on the input file path. After that it will call the <a class="el" href="class_injector.html#a412d2066baa52a0aea5756054d15591a">run()</a> function, passing the command which will be executed to run the output java file that will write the blocks which are executed in the output.txt file.</p>
+<dl class="section post"><dt>Postcondition</dt><dd>After function run, The HTML file with javascript will read from the output.txt file and color the lines depending on block number in the output.txt file.</dd></dl>
 
 </div>
 </div>
@@ -258,11 +286,11 @@ Supported Tokens</h3>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><b>1</b> If Success. </dd>
+<dl class="section return"><dt>Returns</dt><dd><b>1</b> If Succeed. </dd>
 <dd>
 <b>-1</b> If Failed.</dd></dl>
-<p>This Function use to execute any powershell command</p>
-<p >Take the string of the command as input. Then, Make powershell process. Then, pass this command to powershell process object. The process will execute and print the result if Success. If there are an error in this command process will print error response from the powershell</p>
+<p>This Function is used to execute any powershell command</p>
+<p >This Function takes a string of a command as an input. Then, it makes a powershell process. After that, it passes this command to the powershell process object to be executed and print the result if Success. If there are errors, the command process will print the errors responses from the powershell.</p>
 
 </div>
 </div>

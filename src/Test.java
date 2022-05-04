@@ -1,3 +1,6 @@
+/// This class is for testing the Injector Class
+///
+/// This class providing a lot of supporting tokens to test how efficiency Injector Class will detect it and injection code in it.
 public class Test {
     public static int multiply(int x, int y){
         notFun();
@@ -6,7 +9,7 @@ public class Test {
     }
 
     public static void notFun(){
-        System.out.println("This project is not fun at all");
+        System.out.println("Hello from test");
     }
 
     public static int sum(int x, int y){
