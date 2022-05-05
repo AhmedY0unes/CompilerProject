@@ -7,12 +7,12 @@ public class Test3 {
         int y = 6;
         if(x == 5) {
             System.out.println("X = 5");
-            if (y == 7)
+            if (y == 6)
                 System.out.println("Y = 6");
-            else if (y == 6)
+            else if (y == 7)
                 System.out.println("This shall not be printed");
             else
-                System.out.println("Y != 6");
+                System.out.println("Y != 6 and Y != 7");
         }
         else if (x > 3)
             System.out.println("X > 3");

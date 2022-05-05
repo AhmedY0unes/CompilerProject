@@ -194,6 +194,17 @@ public class Injector{
         boolean thereIsADo = false;
         r.insertBefore(0, "<div style=\"font-family:arial;background-color:#95FC65;\">\n");
         for (int i = 0 ; i < tokens.size()-1; i++ ) {
+            if(tokens.get(i).getText().equals("do")){
+                while(i++ < tokens.size() - 1){
+                    if(tokens.get(i).getText().equals("}")){
+                        map.put(i,true);
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0 ; i < tokens.size()-1; i++ ) {
             for(String ele : allowedTokens){
                 int j = i+1;
                 String oneAfter = tokens.get(j).getText();
@@ -229,14 +240,14 @@ public class Injector{
                 while(oneAfter.charAt(0) == ' ' || oneAfter.charAt(0) == '\n'){
                     oneAfter = tokens.get(++i).getText();
                 }
+                if(oneAfter.equals("if")){
+                    continue;
+                }
                 if(!oneAfter.equals("{")) {
-                    for(int k=i;k<tokens.size() - 1;k++){
-                        if(tokens.get(k).getText().equals("}")){
-                            if(map.containsKey(k)){
-                                continue;
-                            }
-                            map.put(k, true);
-                            r.insertAfter(k, "\n</div>\n");
+                    tokenText = "";
+                    while(i++ < tokens.size() - 1 ){
+                        if(tokens.get(i).getText().equals(";")){
+                            r.insertAfter(i, "\n</div>\n");
                             break;
                         }
                     }
@@ -275,7 +286,7 @@ public class Injector{
                     }
                 }
             }
-            if(tokens.get(i).getText().equals(")")  && !tokenText.equals("")){
+            if(tokens.get(i).getText().equals(")")  && !tokenText.equals("")&& !tokenText.equals("do")){
                 String oneAfter = tokens.get(i+1).getText();
                 while(oneAfter.charAt(0) == ' ' || oneAfter.charAt(0) == '\n'){
                     oneAfter = tokens.get(++i).getText();
